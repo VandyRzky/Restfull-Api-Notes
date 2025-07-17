@@ -2,6 +2,7 @@ package restfullapi.notes.controller
 
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -21,6 +22,15 @@ class NoteController (
         val noteResponse = noteService.createNote(request)
         return WebResponse(
             data = noteResponse,
+            error = null
+        )
+    }
+
+    @GetMapping("/api/notes")
+    fun getAll():WebResponse<List<NoteResponse>>{
+        val listOfNoteResponse = noteService.getAllNotes()
+        return WebResponse(
+            data = listOfNoteResponse,
             error = null
         )
     }

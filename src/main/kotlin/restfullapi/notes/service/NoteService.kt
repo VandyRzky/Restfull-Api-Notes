@@ -29,6 +29,16 @@ class NoteService(
 
         noteRepository.save(note)
 
+        return toNoteResponse(note)
+    }
+
+    fun getAllNotes():List<NoteResponse>{
+        return noteRepository.findAll().map { value ->
+            toNoteResponse(value)
+        }
+    }
+
+    private fun toNoteResponse(note: Note): NoteResponse{
         return NoteResponse(
             id = note.id,
             title = note.title,
