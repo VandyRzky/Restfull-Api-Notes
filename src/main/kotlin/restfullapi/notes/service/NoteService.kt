@@ -1,6 +1,7 @@
 package restfullapi.notes.service
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import restfullapi.notes.entity.Note
 import restfullapi.notes.model.CreateNoteRequest
@@ -36,6 +37,12 @@ class NoteService(
         return noteRepository.findAll().map { value ->
             toNoteResponse(value)
         }
+    }
+
+    fun getNode(id: String):NoteResponse{
+        val note = noteRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Data tidak ada")
+
+        return toNoteResponse(note)
     }
 
     private fun toNoteResponse(note: Note): NoteResponse{

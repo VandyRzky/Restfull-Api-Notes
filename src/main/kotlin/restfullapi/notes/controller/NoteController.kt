@@ -3,6 +3,7 @@ package restfullapi.notes.controller
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -31,6 +32,15 @@ class NoteController (
         val listOfNoteResponse = noteService.getAllNotes()
         return WebResponse(
             data = listOfNoteResponse,
+            error = null
+        )
+    }
+
+    @GetMapping("/api/notes/{idNote}")
+    fun getNote(@PathVariable("idNote") id:String):WebResponse<NoteResponse>{
+        val noteResponse = noteService.getNode(id)
+        return WebResponse(
+            data = noteResponse,
             error = null
         )
     }
