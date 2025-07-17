@@ -18,7 +18,8 @@
     "id": "id note",
     "title": "title",
     "content": "content",
-    "created at": "date"
+    "created_at": "date",
+    "updated_ad": null
   }
 }
 ```
