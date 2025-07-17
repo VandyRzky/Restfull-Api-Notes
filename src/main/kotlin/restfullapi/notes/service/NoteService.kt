@@ -25,7 +25,7 @@ class NoteService(
             id = UUID.randomUUID().toString(),
             title = request.title,
             content = request.content,
-            createdAt = Date().toString(),
+            createdAt = Date(),
             updatedAt = null
         )
 
@@ -64,7 +64,7 @@ class NoteService(
         }
 
         if (isUpdate) {
-            note.updatedAt = Date().toString()
+            note.updatedAt = Date()
             noteRepository.save(note)
         }
         return toNoteResponse(note)
