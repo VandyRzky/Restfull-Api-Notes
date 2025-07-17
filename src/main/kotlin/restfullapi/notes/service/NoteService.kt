@@ -70,6 +70,11 @@ class NoteService(
         return toNoteResponse(note)
     }
 
+    fun deleteNote(id: String){
+        val note = findNote(id)
+        noteRepository.delete(note)
+    }
+
     private fun findNote(id: String):Note{
         val note = noteRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Data tidak ada")
         return note

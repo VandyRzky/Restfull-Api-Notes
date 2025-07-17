@@ -2,6 +2,7 @@ package restfullapi.notes.controller
 
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -53,6 +54,15 @@ class NoteController (
         val noteResponse = noteService.updateNote(id, request )
         return WebResponse(
             data = noteResponse,
+            error = null
+        )
+    }
+
+    @DeleteMapping("/api/notes/{idNote}")
+    fun deleteNote(@PathVariable("idNote")id: String): WebResponse<String>{
+        noteService.deleteNote(id)
+        return WebResponse(
+            data = "Berhasil menghapus",
             error = null
         )
     }
