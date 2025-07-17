@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import restfullapi.notes.entity.Note
 import restfullapi.notes.model.CreateNoteRequest
 import restfullapi.notes.model.NoteResponse
+import restfullapi.notes.model.UpdateNoteRequest
 import restfullapi.notes.repository.NoteRepository
 import java.util.Date
 import java.util.UUID
@@ -39,10 +40,39 @@ class NoteService(
         }
     }
 
-    fun getNode(id: String):NoteResponse{
-        val note = noteRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Data tidak ada")
+    fun getNote(id: String):NoteResponse{
+        val note = findNote(id)
 
         return toNoteResponse(note)
+    }
+
+    fun updateNote(id:String, request:UpdateNoteRequest):NoteResponse{
+        val note = findNote(id)
+        var isUpdate = false
+
+        if (request.title.isNullOrBlank() && request.content.isNullOrBlank()){
+            throw IllegalArgumentException("Gagal melakukan update")
+        }
+
+        if (!request.title.isNullOrBlank() && request.title != note.title){
+            note.title = request.title
+            isUpdate = true
+        }
+        if (!request.content.isNullOrBlank() && request.content != note.content){
+            note.content = request.content
+            isUpdate = true
+        }
+
+        if (isUpdate) {
+            note.updatedAt = Date().toString()
+            noteRepository.save(note)
+        }
+        return toNoteResponse(note)
+    }
+
+    private fun findNote(id: String):Note{
+        val note = noteRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Data tidak ada")
+        return note
     }
 
     private fun toNoteResponse(note: Note): NoteResponse{
